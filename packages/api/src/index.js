@@ -18,10 +18,16 @@ const PORT = process.env.PORT || 3001;
 
 app.set("trust proxy", 1);
 
+// CORS: em produção aceita a origem configurada via env var
+const allowedOrigins = process.env.ALLOWED_ORIGIN
+  ? process.env.ALLOWED_ORIGIN.split(",").map((o) => o.trim())
+  : ["http://localhost:5173", "http://localhost:4173"];
+
 app.use(cors({
-  origin: process.env.NODE_ENV === "production"
-    ? false
-    : ["http://localhost:5173", "http://localhost:4173"],
+  origin: (origin, cb) => {
+    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+    cb(new Error("Not allowed by CORS"));
+  },
   credentials: true,
 }));
 
@@ -45,13 +51,20 @@ app.use("/api/gamification", gamificationRoutes);
 app.use("/api/certificates", certificateRoutes);
 app.use("/api/reports", reportsRoutes);
 
-// Serve frontend em produção
-const staticPath = path.join(__dirname, "../../../", process.env.STATIC_PATH || "packages/web/dist");
-app.use(express.static(staticPath));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(staticPath, "index.html"));
-});
+// Serve frontend apenas em modo não-serverless (desenvolvimento local ou Render)
+if (!process.env.VERCEL) {
+  const staticPath = path.join(__dirname, "../../../", process.env.STATIC_PATH || "packages/web/dist");
+  app.use(express.static(staticPath));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(staticPath, "index.html"));
+  });
+}
 
-app.listen(PORT, () => {
-  console.log(`Universidade Kid API rodando na porta ${PORT}`);
-});
+// Inicia servidor apenas quando rodando diretamente (não no Vercel)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Universidade Kid API rodando na porta ${PORT}`);
+  });
+}
+
+module.exports = app;

@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const api = axios.create({ baseURL: "/api" });
+// Em dev: Vite faz proxy de /api → localhost:3001 (via vite.config.js)
+// Em prod (Vercel): VITE_API_URL aponta para a URL da API deployada
+const baseURL = import.meta.env.VITE_API_URL || "/api";
+
+const api = axios.create({ baseURL });
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("kid_token");
@@ -15,7 +19,7 @@ api.interceptors.response.use(
       const refresh = localStorage.getItem("kid_refresh");
       if (refresh) {
         try {
-          const { data } = await axios.post("/api/auth/refresh", { refresh });
+          const { data } = await axios.post(`${baseURL}/auth/refresh`, { refresh });
           localStorage.setItem("kid_token", data.access);
           localStorage.setItem("kid_refresh", data.refresh);
           err.config.headers.Authorization = `Bearer ${data.access}`;
