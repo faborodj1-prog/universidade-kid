@@ -1,0 +1,206 @@
+// packages/api/src/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── USUÁRIOS ───────────────────────────────────────────────
+
+model User {
+  id           String        @id @default(cuid())
+  name         String
+  email        String        @unique
+  password     String
+  role         Role          @default(SELLER)
+  region       String?
+  storeId      String?
+  xp           Int           @default(0)
+  level        Int           @default(1)
+  avatarUrl    String?
+  isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  progress     UserProgress[]
+  visits       Visit[]
+  certificates Certificate[]
+  achievements Achievement[]
+  sessions     Session[]
+
+  @@index([region])
+  @@index([role])
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  REPRESENTATIVE
+  RETAILER
+  SELLER
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── TRILHAS E CONTEÚDO ─────────────────────────────────────
+
+model Trail {
+  id           String   @id @default(cuid())
+  title        String
+  description  String
+  profileTypes Role[]
+  thumbnail    String?
+  isPublished  Boolean  @default(false)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  modules      Module[]
+}
+
+model Module {
+  id          String      @id @default(cuid())
+  trailId     String
+  title       String
+  description String?
+  order       Int
+  contentType ContentType
+  contentUrl  String
+  durationMin Int         @default(5)
+  xpReward    Int         @default(50)
+  isRequired  Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+
+  trail       Trail         @relation(fields: [trailId], references: [id], onDelete: Cascade)
+  progress    UserProgress[]
+  quizzes     Quiz[]
+
+  @@index([trailId, order])
+}
+
+enum ContentType {
+  VIDEO
+  TEXT
+  PDF
+  QUIZ
+}
+
+model Quiz {
+  id        String         @id @default(cuid())
+  moduleId  String
+  question  String
+  options   Json           // String[]
+  answer    Int            // índice da resposta correta
+  order     Int            @default(0)
+  module    Module         @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+}
+
+// ─── PROGRESSO ──────────────────────────────────────────────
+
+model UserProgress {
+  id          String    @id @default(cuid())
+  userId      String
+  moduleId    String
+  status      Status    @default(NOT_STARTED)
+  score       Int?      // 0–100
+  attempts    Int       @default(0)
+  completedAt DateTime?
+  updatedAt   DateTime  @updatedAt
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module      Module    @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, moduleId])
+  @@index([userId])
+}
+
+enum Status {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+// ─── CERTIFICADOS ───────────────────────────────────────────
+
+model Certificate {
+  id         String   @id @default(cuid())
+  userId     String
+  trailId    String
+  trailTitle String
+  code       String   @unique
+  pdfUrl     String?
+  issuedAt   DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ─── GAMIFICAÇÃO ────────────────────────────────────────────
+
+model Achievement {
+  id          String   @id @default(cuid())
+  userId      String
+  badge       String   // ex: "FIRST_LESSON", "30_DAYS", "MASTER"
+  description String?
+  awardedAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badge])
+}
+
+model XPLog {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    Int
+  reason    String   // ex: "MODULE_COMPLETED", "QUIZ_PERFECT"
+  refId     String?  // ID do módulo/visita relacionado
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ─── VISITAS DE CAMPO ───────────────────────────────────────
+
+model Visit {
+  id               String   @id @default(cuid())
+  userId           String
+  storeName        String
+  storeId          String?
+  latitude         Float
+  longitude        Float
+  photoUrl         String
+  category         String   // "TRAINING", "AUDIT", "OPENING", "ROUTINE"
+  checklistAnswers Json?
+  notes            String?
+  visitedAt        DateTime @default(now())
+
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([visitedAt])
+}
+
+// ─── LOJAS ──────────────────────────────────────────────────
+
+model Store {
+  id        String  @id @default(cuid())
+  name      String
+  address   String?
+  city      String?
+  state     String?
+  region    String?
+  isActive  Boolean @default(true)
+}

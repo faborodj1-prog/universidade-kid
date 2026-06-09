@@ -1,0 +1,15 @@
+{
+  "name": "universidade-kid",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "build": "cd packages/web && npm install && npm run build",
+    "start": "node packages/api/src/index.js",
+    "dev": "concurrently \"npm run dev --workspace=packages/api\" \"npm run dev --workspace=packages/web\"",
+    "db:migrate": "cd packages/api && npx prisma migrate deploy",
+    "db:seed": "cd packages/api && node src/prisma/seed.js"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
