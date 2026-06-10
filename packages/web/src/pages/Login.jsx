@@ -4,7 +4,7 @@ import api from "../api/client";
 import useAppStore from "../store/useAppStore";
 
 export default function Login() {
-  const [tab, setTab] = useState("login"); // login | register
+  const [tab, setTab] = useState("login");
   const [form, setForm] = useState({ name: "", email: "", password: "", role: "SELLER", region: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -33,14 +33,17 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-600 to-red-800 flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(to bottom, #FF6600, #CC4400)" }}>
       {/* Hero */}
-      <div className="flex flex-col items-center justify-center pt-16 pb-10 px-6 text-white">
-        <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mb-4 shadow-xl">
-          <span className="text-4xl">🎓</span>
-        </div>
-        <h1 className="text-3xl font-bold tracking-tight">Universidade Kidy</h1>
-        <p className="text-red-100 mt-1 text-sm">Plataforma de treinamento e certificação</p>
+      <div className="flex flex-col items-center justify-center pt-12 pb-10 px-6 text-white">
+        <img
+          src="/kidy-logo.png"
+          alt="Kidy"
+          className="w-72 max-w-full object-contain drop-shadow-xl mb-2"
+        />
+        <p className="text-orange-100 mt-1 text-sm font-medium tracking-wide">
+          Universidade Kidy — Treinamento e Certificação
+        </p>
       </div>
 
       {/* Card */}
@@ -65,7 +68,7 @@ export default function Login() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Nome completo</label>
                 <input
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6600]"
                   placeholder="Seu nome"
                   value={form.name}
                   onChange={(e) => update("name", e.target.value)}
@@ -75,7 +78,7 @@ export default function Login() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Perfil</label>
                 <select
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6600] bg-white"
                   value={form.role}
                   onChange={(e) => update("role", e.target.value)}
                 >
@@ -88,7 +91,7 @@ export default function Login() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Região (opcional)</label>
                 <input
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6600]"
                   placeholder="Ex: SP, RJ, Sul..."
                   value={form.region}
                   onChange={(e) => update("region", e.target.value)}
@@ -101,7 +104,7 @@ export default function Login() {
             <label className="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
             <input
               type="email"
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6600]"
               placeholder="seu@email.com"
               value={form.email}
               onChange={(e) => update("email", e.target.value)}
@@ -112,7 +115,7 @@ export default function Login() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Senha</label>
             <input
               type="password"
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6600]"
               placeholder="Mínimo 6 caracteres"
               value={form.password}
               onChange={(e) => update("password", e.target.value)}
@@ -122,7 +125,7 @@ export default function Login() {
           </div>
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3">
+            <div className="bg-orange-50 border border-orange-200 text-orange-800 text-sm rounded-xl px-4 py-3">
               {error}
             </div>
           )}
@@ -130,8 +133,8 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-red-600 text-white font-semibold py-4 rounded-2xl
-                       disabled:opacity-60 touch-btn mt-2"
+            className="w-full text-white font-semibold py-4 rounded-2xl disabled:opacity-60 touch-btn mt-2"
+            style={{ backgroundColor: "#FF6600" }}
           >
             {loading ? "Aguarde..." : tab === "login" ? "Entrar" : "Criar conta"}
           </button>

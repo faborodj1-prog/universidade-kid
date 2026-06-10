@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         kid: {
-          red: "#DC2626",
+          red: "#FF6600",
           dark: "#1A202C",
           gray: "#718096",
           light: "#F7FAFC",

@@ -14,7 +14,7 @@ export default function Layout() {
             <span className="text-xs text-gray-500 font-medium">
               {user?.name?.split(" ")[0]}
             </span>
-            <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-kid-red font-bold text-sm">
+            <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-kid-red font-bold text-sm">
               {user?.name?.[0]?.toUpperCase()}
             </div>
           </div>
