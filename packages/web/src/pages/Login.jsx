@@ -37,7 +37,7 @@ export default function Login() {
       {/* Hero */}
       <div className="flex flex-col items-center justify-center pt-12 pb-10 px-6 text-white">
         <img
-          src="/kidy-logo.png"
+          src="/kidy-logo.jpg"
           alt="Kidy"
           className="w-72 max-w-full object-contain drop-shadow-xl mb-2"
         />
