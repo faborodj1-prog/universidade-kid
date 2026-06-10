@@ -18,8 +18,8 @@ export default defineConfig({
         ],
       },
       manifest: {
-        name: "Universidade Kid",
-        short_name: "Kid Univ",
+        name: "Universidade Kidy",
+        short_name: "Kidy Univ",
         description: "Plataforma de treinamento e certificação",
         start_url: "/",
         display: "standalone",

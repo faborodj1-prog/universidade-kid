@@ -39,7 +39,7 @@ export default function Login() {
         <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mb-4 shadow-xl">
           <span className="text-4xl">🎓</span>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight">Universidade Kid</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Universidade Kidy</h1>
         <p className="text-red-100 mt-1 text-sm">Plataforma de treinamento e certificação</p>
       </div>
 

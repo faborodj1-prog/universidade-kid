@@ -17,7 +17,7 @@ async function main() {
     update: {},
     create: {
       id: "trail-demo-001",
-      title: "Fundamentos Kid",
+      title: "Fundamentos Kidy",
       description: "Trilha introdutória sobre a marca, produtos e técnicas de venda.",
       profileTypes: ["REPRESENTATIVE", "RETAILER", "SELLER"],
       isPublished: true,
@@ -26,7 +26,7 @@ async function main() {
   });
 
   const modules = [
-    { title: "Boas-vindas à Universidade Kid", contentType: "VIDEO", contentUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", durationMin: 5, xpReward: 50, order: 1 },
+    { title: "Boas-vindas à Universidade Kidy", contentType: "VIDEO", contentUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", durationMin: 5, xpReward: 50, order: 1 },
     { title: "Conhecendo a Linha de Produtos", contentType: "TEXT", contentUrl: "", durationMin: 10, xpReward: 50, order: 2 },
     { title: "Quiz: Fundamentos", contentType: "QUIZ", contentUrl: "", durationMin: 5, xpReward: 30, order: 3 },
   ];
@@ -42,8 +42,8 @@ async function main() {
       await prisma.quiz.createMany({
         skipDuplicates: true,
         data: [
-          { moduleId: created.id, question: "Qual o principal diferencial da marca Kid?", options: ["Preço baixo", "Qualidade e inovação", "Distribuição rápida", "Embalagem colorida"], answer: 1, order: 1 },
-          { moduleId: created.id, question: "Quais são os perfis que usam a Universidade Kid?", options: ["Apenas representantes", "Representantes, lojistas e vendedores", "Só vendedores", "Somente gestores"], answer: 1, order: 2 },
+          { moduleId: created.id, question: "Qual o principal diferencial da marca Kidy?", options: ["Preço baixo", "Qualidade e inovação", "Distribuição rápida", "Embalagem colorida"], answer: 1, order: 1 },
+          { moduleId: created.id, question: "Quais são os perfis que usam a Universidade Kidy?", options: ["Apenas representantes", "Representantes, lojistas e vendedores", "Só vendedores", "Somente gestores"], answer: 1, order: 2 },
         ],
       });
     }

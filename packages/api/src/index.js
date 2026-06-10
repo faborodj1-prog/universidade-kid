@@ -63,7 +63,7 @@ if (!process.env.VERCEL) {
 // Inicia servidor apenas quando rodando diretamente (não no Vercel)
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(`Universidade Kid API rodando na porta ${PORT}`);
+    console.log(`Universidade Kidy API rodando na porta ${PORT}`);
   });
 }
 

@@ -15,7 +15,7 @@ const LEVELS = [
   { level: 1, name: "Aprendiz",    minXP: 0 },
   { level: 2, name: "Profissional", minXP: 501 },
   { level: 3, name: "Expert",      minXP: 1501 },
-  { level: 4, name: "Mestre Kid",  minXP: 3501 },
+  { level: 4, name: "Mestre Kidy", minXP: 3501 },
 ];
 
 function calcLevel(xp) {
@@ -63,7 +63,7 @@ async function checkAchievements(userId) {
   if (user.progress.length >= 1) await grant("FIRST_LESSON", "Primeira aula concluída!");
   if (user.certificates.length >= 5) await grant("FIVE_CERTS", "5 certificados conquistados!");
   if (user.visits.length >= 10) await grant("FIELD_EXPERT", "10 visitas de campo registradas!");
-  if (user.xp >= 3501) await grant("MASTER_KID", "Nível Mestre Kid alcançado!");
+  if (user.xp >= 3501) await grant("MASTER_KID", "Nível Mestre Kidy alcançado!");
 
   return earned;
 }

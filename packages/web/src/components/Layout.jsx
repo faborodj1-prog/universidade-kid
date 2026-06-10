@@ -9,7 +9,7 @@ export default function Layout() {
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white border-b border-gray-100 safe-top">
         <div className="max-w-screen-lg mx-auto px-4 h-14 flex items-center justify-between">
-          <span className="text-kid-red font-bold text-lg tracking-tight">Universidade Kid</span>
+          <span className="text-kid-red font-bold text-lg tracking-tight">Universidade Kidy</span>
           <div className="flex items-center gap-2">
             <span className="text-xs text-gray-500 font-medium">
               {user?.name?.split(" ")[0]}
